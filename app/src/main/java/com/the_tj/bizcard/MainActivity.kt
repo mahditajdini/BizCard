@@ -9,9 +9,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,8 +41,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.the_tj.bizcard.ui.theme.BizCardTheme
@@ -61,7 +65,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CreateBizCard() {
-    val buttonClickedState =  remember{
+    val buttonClickedState = remember {
         mutableStateOf(false)
     }
     Surface(
@@ -90,7 +94,7 @@ fun CreateBizCard() {
                 Button(
                     onClick = {
                         Log.d("Clicked", "CreateBizCard: clicked")
-                        buttonClickedState.value= !buttonClickedState.value
+                        buttonClickedState.value = !buttonClickedState.value
                     }
                 ) {
                     Text(
@@ -98,10 +102,10 @@ fun CreateBizCard() {
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                if(buttonClickedState.value){
+                if (buttonClickedState.value) {
                     Content()
-                }else{
-                    Box(){}
+                } else {
+                    Box {}
                 }
             }
 
@@ -130,11 +134,15 @@ fun Content() {
                 color = Color.LightGray
             )
         ) {
-            portfolio(data = listOf("Project 1",
-                "Project 2",
-                "project 3",
-                "project 4",
-                "project 5"))
+            portfolio(
+                data = listOf(
+                    "Project 1",
+                    "Project 2",
+                    "project 3",
+                    "project 4",
+                    "project 5"
+                )
+            )
         }
 
 
@@ -147,8 +155,30 @@ fun Content() {
 fun portfolio(data: List<String>) {
 //    Text("Projects go here!")
     LazyColumn {
-        items(data){ item->
-            Text(item)
+        items(data) { item ->
+            Card(
+                modifier = Modifier
+                    .padding(7.dp)
+                    .fillMaxWidth(),
+                shape = RectangleShape, elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(7.dp)
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                ) {
+                    CreateImageProfile(modifier = Modifier.size(100.dp))
+                    Column(modifier = Modifier.padding(7.dp)) {
+                        Text(text = item, fontWeight = FontWeight.Bold)
+                        Text(
+                            text = "it was a good project",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+
+                    }
+                }
+            }
         }
     }
 }
@@ -179,7 +209,7 @@ private fun CreateInfo() {
 @Composable
 private fun CreateImageProfile(modifier: Modifier = Modifier) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .size(150.dp)
             .padding(5.dp),
         shape = CircleShape,
@@ -189,13 +219,13 @@ private fun CreateImageProfile(modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(id = R.drawable.images),
             contentDescription = "profile image",
-            modifier = Modifier.size(135.dp),
+            modifier = modifier.size(135.dp),
             contentScale = ContentScale.Crop
         )
     }
 }
 
-//@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     BizCardTheme {

@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -93,6 +95,35 @@ fun CreateBizCard() {
         }
     }
 }
+@Composable
+@Preview
+fun Content(){
+    Box(modifier= Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .padding(5.dp)) {
+        Surface (modifier = Modifier.padding(3.dp)
+            .fillMaxHeight()
+            .fillMaxWidth(),
+            shape = RoundedCornerShape(corner = CornerSize(6.dp)),
+            border = BorderStroke(width = 2.dp,
+                color = Color.LightGray)){
+            portfolio(data = listOf("Project 1","Project 2","project 3"))
+    }
+
+
+        }
+
+
+
+}
+
+@Composable
+fun portfolio(data: List<String>) {
+    Text("Projects go here!")
+
+}
+
 
 @Composable
 private fun CreateInfo() {
@@ -135,7 +166,7 @@ private fun CreateImageProfile(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     BizCardTheme {

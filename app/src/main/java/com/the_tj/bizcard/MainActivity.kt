@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +34,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,6 +61,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CreateBizCard() {
+    val buttonClickedState =  remember{
+        mutableStateOf(false)
+    }
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,8 +79,8 @@ fun CreateBizCard() {
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp),
+                    .fillMaxWidth(),
+//                    .height(300.dp),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -84,10 +90,18 @@ fun CreateBizCard() {
                 Button(
                     onClick = {
                         Log.d("Clicked", "CreateBizCard: clicked")
+                        buttonClickedState.value= !buttonClickedState.value
                     }
                 ) {
-                    Text(text="portfolio",
-                        style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = "portfolio",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                if(buttonClickedState.value){
+                    Content()
+                }else{
+                    Box(){}
                 }
             }
 
@@ -95,33 +109,48 @@ fun CreateBizCard() {
         }
     }
 }
+
 @Composable
-@Preview
-fun Content(){
-    Box(modifier= Modifier
-        .fillMaxWidth()
-        .fillMaxHeight()
-        .padding(5.dp)) {
-        Surface (modifier = Modifier.padding(3.dp)
-            .fillMaxHeight()
-            .fillMaxWidth(),
+//@Preview
+fun Content() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+//            .fillMaxHeight()
+            .padding(5.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .padding(3.dp)
+                .fillMaxHeight()
+                .fillMaxWidth(),
             shape = RoundedCornerShape(corner = CornerSize(6.dp)),
-            border = BorderStroke(width = 2.dp,
-                color = Color.LightGray)){
-            portfolio(data = listOf("Project 1","Project 2","project 3"))
-    }
-
-
+            border = BorderStroke(
+                width = 2.dp,
+                color = Color.LightGray
+            )
+        ) {
+            portfolio(data = listOf("Project 1",
+                "Project 2",
+                "project 3",
+                "project 4",
+                "project 5"))
         }
 
+
+    }
 
 
 }
 
 @Composable
 fun portfolio(data: List<String>) {
-    Text("Projects go here!")
-
+//    Text("Projects go here!")
+    LazyColumn {
+        items(data){ item->
+            Text(item)
+        }
+    }
 }
 
 
